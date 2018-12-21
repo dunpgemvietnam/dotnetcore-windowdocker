@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/Dotnetcore.Windowdocker/v15
+/Dotnetcore.Windowdocker/bin/Debug/netcoreapp2.1
+/Dotnetcore.Windowdocker/obj

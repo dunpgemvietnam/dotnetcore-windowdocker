@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  dotnetcore.windowdocker:
+    image: ${DOCKER_REGISTRY-}dotnetcorewindowdocker
+    build:
+      context: .
+      dockerfile: Dotnetcore.Windowdocker\Dockerfile

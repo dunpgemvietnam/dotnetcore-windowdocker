@@ -5,3 +5,7 @@
 /.vs/Dotnetcore.Windowdocker/v15
 /Dotnetcore.Windowdocker/bin/Debug/netcoreapp2.1
 /Dotnetcore.Windowdocker/obj
+/bin
+/.vs/Dotnetcore.Windowdocker/DesignTimeBuild
+/Dotnetcore.Windowdocker/bin/Release/netcoreapp2.1
+/obj

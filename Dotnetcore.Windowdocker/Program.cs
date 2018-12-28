@@ -1,12 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Dotnetcore.Windowdocker
 {
     class Program
     {
-        static void Main(string[] args)
+       static AutoResetEvent _closing = new AutoResetEvent(false);
+
+        public static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
 
@@ -18,11 +22,23 @@ namespace Dotnetcore.Windowdocker
                 Console.WriteLine("Enter 'quit' to terminate console");
                 var cmd = Console.ReadLine();
 
-                if (cmd.Equals("quit")) return;
+                if ((cmd ?? string.Empty).Equals("quit"))
+                {
+                    return;
+                }
             }
+
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(OnExit);
+            _closing.WaitOne();
+        }
+
+        protected static void OnExit(object sender, ConsoleCancelEventArgs args)
+        {
+            Console.WriteLine("Exit");
+            _closing.Set();
         }
     }
-    
+
     public class ProcessWithoutBranchStatement
     {
         public enum ProcessStatus
@@ -73,12 +89,12 @@ namespace Dotnetcore.Windowdocker
                 Console.WriteLine(JsonConvert.SerializeObject(data));
         }
 
-      
+
         public void Process(ProcessStatus status, object data)
         {
             Action<object> a = null;
 
-            if(_map.TryGetValue(status,out a) && a!=null)
+            if (_map.TryGetValue(status, out a) && a != null)
             {
                 a(data);
             }

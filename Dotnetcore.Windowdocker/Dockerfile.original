@@ -1,0 +1,19 @@
+FROM microsoft/dotnet:2.1-runtime AS base
+WORKDIR /app
+
+FROM microsoft/dotnet:2.1-sdk AS build
+WORKDIR /src
+COPY Dotnetcore.Windowdocker/Dotnetcore.Windowdocker.csproj Dotnetcore.Windowdocker/
+RUN dotnet restore Dotnetcore.Windowdocker/Dotnetcore.Windowdocker.csproj
+COPY . .
+WORKDIR /src/Dotnetcore.Windowdocker
+RUN dotnet build Dotnetcore.Windowdocker.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish Dotnetcore.Windowdocker.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "Dotnetcore.Windowdocker.dll"]
+
